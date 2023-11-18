@@ -9,6 +9,12 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.stream.Stream;
 
+/**
+ * Root documentation importer.
+ * May be used as a standalone custom importer in DSL.
+ *
+ * @author Maksim Osipov
+ */
 public class PlantUMLDocumentationImporter implements DocumentationImporter {
     private static final Logger LOG = LoggerFactory.getLogger(PlantUMLDocumentationImporter.class);
 

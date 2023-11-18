@@ -3,38 +3,31 @@ package name.codemax.structurizr.plantuml;
 import com.structurizr.Workspace;
 import com.structurizr.documentation.Documentable;
 import com.structurizr.documentation.Image;
-import com.structurizr.dsl.StructurizrDslPlugin;
-import com.structurizr.dsl.StructurizrDslPluginContext;
 import com.structurizr.model.Element;
 import com.structurizr.view.ImageView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.util.Set;
 import java.util.regex.Pattern;
 
-public class StructurizrImageViewGenerator implements StructurizrDslPlugin {
-    private static final Logger LOG = LoggerFactory.getLogger(StructurizrImageViewGenerator.class);
-
-    private static final String SUFFIX_PROPERTY = "imageSuffix";
+/**
+ * Generates image views from PlantUML diagrams in documentation.
+ *
+ * @author Maksim Osipov
+ */
+public class PlantUMLImageViewGenerator implements WorkspaceProcessor {
+    private static final Set<String> SUFFIXES = Set.of(".puml.svg");
     private static final Pattern WHITESPACE_PATTERN = Pattern.compile("\\W+");
 
-    @Override
-    public void run(StructurizrDslPluginContext context) {
-        String suffix = context.getParameter(SUFFIX_PROPERTY, "");
-        if (suffix.isEmpty()) {
-            LOG.warn("Suffix is empty. No image views will be extracted.");
-            return;
-        }
-
-        Workspace workspace = context.getWorkspace();
+    public void processWorkspace(Workspace workspace) {
         for (Element element : workspace.getModel().getElements()) {
             if (!(element instanceof Documentable documentableElement)) {
                 continue;
             }
 
+            SUFFIXES.forEach(suffix ->
             documentableElement.getDocumentation().getImages().stream()
                     .filter(image -> image.getName().endsWith(suffix))
-                    .forEach(image -> createView(workspace, element, image, suffix));
+                    .forEach(image -> createView(workspace, element, image, suffix)));
         }
     }
 

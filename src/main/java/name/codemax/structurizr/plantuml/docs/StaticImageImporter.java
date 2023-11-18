@@ -6,6 +6,12 @@ import com.structurizr.util.ImageUtils;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Imports raster static images.
+ * Implementation is similar to the default one.
+ *
+ * @author Maksim Osipov
+ */
 public class StaticImageImporter extends AbstractImageImporter {
     @Override
     protected boolean canImport(String name) {

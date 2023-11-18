@@ -8,6 +8,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Base64;
 
+/**
+ * Imports arbitrary SVG images.
+ * This feature is missing in the default implementation.
+ *
+ * @author Maksim Osipov
+ */
 public class SVGImageImporter extends AbstractImageImporter {
     @Override
     protected boolean canImport(String name) {

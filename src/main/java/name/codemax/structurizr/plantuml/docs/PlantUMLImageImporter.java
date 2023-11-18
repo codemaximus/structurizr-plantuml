@@ -12,6 +12,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Base64;
 
+/**
+ * Converts all PlantUML diagrams (*.puml) to SVG images.
+ * Images are saved with the same name and the <code>.puml.svg</code> extension.
+ *
+ * @author Maksim Osipov
+ */
 public class PlantUMLImageImporter extends AbstractImageImporter {
     @Override
     protected boolean canImport(String name) {

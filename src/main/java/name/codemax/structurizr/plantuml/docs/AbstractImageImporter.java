@@ -9,6 +9,11 @@ import com.structurizr.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Abstract importer for images.
+ *
+ * @author Maksim Osipov
+ */
 public abstract class AbstractImageImporter implements DocumentationImporter {
     @Override
     public void importDocumentation(Documentable documentable, File path) {
@@ -35,19 +40,20 @@ public abstract class AbstractImageImporter implements DocumentationImporter {
 
     private void importImages(Documentable documentable, String root, File path) throws IOException {
         File[] files = path.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                String name = file.getName().toLowerCase();
-                if (file.isDirectory() && !file.isHidden()) {
-                    if (StringUtils.isNullOrEmpty(root)) {
-                        importImages(documentable, file.getName(), file);
-                    } else {
-                        importImages(documentable, root + "/" + file.getName(), file);
-                    }
+        if (files == null) {
+            return;
+        }
+        for (File file : files) {
+            String name = file.getName().toLowerCase();
+            if (file.isDirectory() && !file.isHidden()) {
+                if (StringUtils.isNullOrEmpty(root)) {
+                    importImages(documentable, file.getName(), file);
                 } else {
-                    if (canImport(name)) {
-                        importImage(documentable, root, file);
-                    }
+                    importImages(documentable, root + "/" + file.getName(), file);
+                }
+            } else {
+                if (canImport(name)) {
+                    importImage(documentable, root, file);
                 }
             }
         }
@@ -57,7 +63,7 @@ public abstract class AbstractImageImporter implements DocumentationImporter {
         documentable.getDocumentation().addImage(importImage(path, file));
     }
 
-    protected final String getFileName(String path, File file) {
+    protected static String getFileName(String path, File file) {
         String name;
         if (StringUtils.isNullOrEmpty(path)) {
             name = file.getName();
