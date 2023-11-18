@@ -9,6 +9,9 @@
     <version>0.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <name>Structurizr PlantUML Integration Plugin</name>
+    <description>This plugin offers automatic import of PlantUML diagrams to code level of C4 model.</description>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
