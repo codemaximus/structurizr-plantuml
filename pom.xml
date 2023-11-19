@@ -8,6 +8,7 @@
     <artifactId>structurizr-plantuml</artifactId>
     <version>0.6-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <url>https://github.com/codemaximus/structurizr-plantuml/</url>
 
     <name>Structurizr PlantUML Integration Plugin</name>
     <description>Plugin offers automatic import of PlantUML diagrams to code level of C4 model</description>
