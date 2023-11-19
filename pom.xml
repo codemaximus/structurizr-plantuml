@@ -10,30 +10,157 @@
     <packaging>jar</packaging>
 
     <name>Structurizr PlantUML Integration Plugin</name>
-    <description>This plugin offers automatic import of PlantUML diagrams to code level of C4 model.</description>
+    <description>Plugin offers automatic import of PlantUML diagrams to code level of C4 model</description>
+
+    <licenses>
+        <license>
+            <name>The MIT License (MIT)</name>
+            <url>https://github.com/codemaximus/structurizr-plantuml/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>codemax</id>
+            <name>Maksim Osipov</name>
+            <url>https://codemax.name</url>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/codemaximus/structurizr-plantuml.git</connection>
+        <url>https://github.com/codemaximus/structurizr-plantuml</url>
+        <developerConnection>scm:git:https://github.com/codemaximus/structurizr-plantuml.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <structurizr.dsl.version>1.30.4</structurizr.dsl.version>
+        <structurizr.import.version>1.6.0</structurizr.import.version>
+        <plantuml.version>1.2023.12</plantuml.version>
+
+        <plugin.nexus.staging.version>1.6.13</plugin.nexus.staging.version>
+        <plugin.maven.source.version>3.3.0</plugin.maven.source.version>
+        <plugin.maven.javadoc.version>3.6.2</plugin.maven.javadoc.version>
+        <plugin.maven.gpg.version>3.1.0</plugin.maven.gpg.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.structurizr</groupId>
             <artifactId>structurizr-dsl</artifactId>
-            <version>1.30.4</version>
+            <version>${structurizr.dsl.version}</version>
         </dependency>
         <dependency>
             <groupId>com.structurizr</groupId>
             <artifactId>structurizr-import</artifactId>
-            <version>1.6.0</version>
+            <version>${structurizr.import.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.sourceforge.plantuml</groupId>
             <artifactId>plantuml-mit</artifactId>
-            <version>1.2023.12</version>
+            <version>${plantuml.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <version>${plugin.nexus.staging.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>ossrh</serverId>
+                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${plugin.maven.source.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${plugin.maven.javadoc.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${plugin.maven.gpg.version}</version>
+                    <executions>
+                        <execution>
+                            <id>sign-artifacts</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <gpgArguments>
+                            <gpgArgument>--pinentry-mode</gpgArgument>
+                            <gpgArgument>loopback</gpgArgument>
+                        </gpgArguments>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
