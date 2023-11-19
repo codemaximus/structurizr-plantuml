@@ -6,7 +6,7 @@
 
     <groupId>name.codemax</groupId>
     <artifactId>structurizr-plantuml</artifactId>
-    <version>0.5-SNAPSHOT</version>
+    <version>0.5</version>
     <packaging>jar</packaging>
 
     <name>Structurizr PlantUML Integration Plugin</name>
