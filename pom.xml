@@ -6,7 +6,7 @@
 
     <groupId>name.codemax</groupId>
     <artifactId>structurizr-plantuml</artifactId>
-    <version>0.5</version>
+    <version>0.6</version>
     <packaging>jar</packaging>
     <url>https://github.com/codemaximus/structurizr-plantuml/</url>
 

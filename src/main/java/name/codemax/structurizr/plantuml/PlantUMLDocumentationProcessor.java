@@ -20,6 +20,7 @@ import java.nio.file.Path;
  */
 public class PlantUMLDocumentationProcessor implements WorkspaceProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(PlantUMLDocumentationProcessor.class);
+    private static final String PATH_DELIMITER = "/";
 
     private final String tagPrefix;
     private final Path documentationRootPath;
@@ -39,8 +40,19 @@ public class PlantUMLDocumentationProcessor implements WorkspaceProcessor {
             element.getTagsAsSet().stream()
                     .filter(tag -> tag.startsWith(tagPrefix))
                     .map(tag -> tag.substring(tagPrefix.length()))
-                    .forEach(tag -> importDocumentation(documentationRootPath.resolve(tag).toFile(), documentableElement));
+                    .forEach(tag -> importDocumentation(buildDocumentationPath(tag).toFile(), documentableElement));
         }
+    }
+
+    private Path buildDocumentationPath(String tag) {
+        Path path = documentationRootPath;
+        for (String part : tag.split(PATH_DELIMITER)) {
+            if (part.isEmpty()) {
+                continue;
+            }
+            path = path.resolve(part);
+        }
+        return path;
     }
 
     private static void importDocumentation(File docDir, Documentable element) {
